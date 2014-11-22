@@ -5,7 +5,8 @@ import pandas as pd
 
 class MSD_Queries:
     def __init__(self):
-        self.conn = psycopg2.connect(dbname='msd', user='postgres', host='/tmp')
+        # self.conn = psycopg2.connect(dbname='msd', user='postgres', host='/tmp') # for local machine
+        self.conn = psycopg2.connect(dbname='msd', user='postgres', host='/var/run/postgresql/') # for server
         self.c = self.conn.cursor()
 
     def delete_user_stored_data(self, user_id):
