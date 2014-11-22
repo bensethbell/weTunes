@@ -7,6 +7,7 @@
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 // client_id = '530ddf60a0e840369395009076d9fde7', client_secret = 'd1974e81df054fb2bffa895b741f96f6', redirect_uri = 'https://github.com/bsbell21'
+var ip_address = "10.0.1.14"
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
@@ -14,7 +15,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = '530ddf60a0e840369395009076d9fde7'; // Your client id
 var client_secret = 'd1974e81df054fb2bffa895b741f96f6'; // Your client secret
-var redirect_uri = 'http://10.0.1.14:7777/callback'; // Your redirect uri
+var redirect_uri = 'http://' + ip_address + ':7777/callback'; // Your redirect uri
 
 
 // var client_id = '03ffe0cac0a0401aa6673c3cf6d02ced'; // Your client id
@@ -114,7 +115,7 @@ app.get('/callback', function(req, res) {
 
         console.log("redirecting to flask");
         // we can also pass the token to the browser to make requests from there
-        res.redirect('http://10.0.1.14:7000/group_login_signin?' +
+        res.redirect('http://' + ip_address + ':7000/group_login_signin?' +
           querystring.stringify({
             user_id: user_id,
             display_name: display_name,
