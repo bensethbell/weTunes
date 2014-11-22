@@ -373,7 +373,6 @@ class SpotifyFunctionsPublic:
 
 
     def create_playlist(self, spotify_track_ids, playlist_name):
-        ipdb.set_trace()
         self.token = util.prompt_for_user_token(self.my_id, 
             scope = 'playlist-modify-public user-library-read playlist-read-private playlist-modify-private user-library-modify', client_id = '530ddf60a0e840369395009076d9fde7', 
             client_secret = 'd1974e81df054fb2bffa895b741f96f6', redirect_uri = 'https://github.com/bsbell21')
