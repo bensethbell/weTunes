@@ -119,7 +119,8 @@ app.get('/callback', function(req, res) {
         // we can also pass the token to the browser to make requests from there
         // res.redirect('http://' + ip_address + ':7000/group_login_signin?' +
         res.redirect(ip_address + ':7000/group_login_signin?' +
-          querystring.stringify({0
+          // querystring.stringify({0
+          querystring.stringify({
             user_id: user_id,
             display_name: display_name,
             access_token: access_token,
