@@ -697,7 +697,7 @@ class PlaylistRecommender:
             df_terms_grouped = df_terms.groupby('term').sum().sort('count', ascending = False).reset_index()
             result = '/'.join(list(df_terms_grouped['term'][:3].values))
         except:
-            print terms_all
+            print 'all terms', terms_all
             result = 'wetunes'
         
         return result
