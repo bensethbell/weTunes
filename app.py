@@ -127,7 +127,7 @@ def playlists():
     playlist_names = playlist_names[:n_playlists]
     print 'playlist_names: ', playlist_names
     #embed_base = "https://embed.spotify.com/?uri=https://play.spotify.com/user/1248440864/playlist/" # for playlists
-    embed_base = "https://embed.spotify.com/?uri=spotify:trackset: # for list of tracks"
+    embed_base = "https://embed.spotify.com/?uri=spotify:trackset:" # for list of tracks
     for idx, playlist in enumerate(playlist_spotify_id_list[:n_playlists]):
         print 'playlist:', playlist
         all_data.append({})
