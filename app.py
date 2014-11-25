@@ -129,14 +129,18 @@ def playlists():
     #embed_base = "https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:" # for list of tracks
     for idx, playlist in enumerate(playlist_spotify_id_list[:n_playlists]):
         all_data.append({})
+        '''
+        # removing this to experiment on no playlists
         playlist_id = s.create_playlist(playlist, playlist_names[idx]) # keep in final if making playlists
         # playlist_id = pl_playlist_ids[idx] # remove in final
         playlist_ids.append(playlist_id)
         p_id = playlist_id
         p_id = re.sub(r'([^\s\w]|_)+', '', p_id)
         all_data[idx]['playlist_id'] = p_id
+        '''
 
-        all_data[idx]['playlist_html'] = embed_base + str(playlist_id)
+        all_data[idx]['playlist_html'] = embed_base + '3rYagP7nddCc1VaJQmu5or,2tj4OKSHzJt3Xjnlc9nk4h,1fVjZ1vWG1YIu0665MlSLN'
+        # all_data[idx]['playlist_html'] = embed_base + str(playlist_id) //keep in final
         all_data[idx]['seed_artist_names'] = playlist_seed_names[idx].decode('utf-8')
         # all_data[idx]['seed_artist_names'] = all_data[idx]['seed_artist_names'].encode('ascii','ignore')
         all_data[idx]['scores'] = {} # should remove this or userids/scores - redundant
@@ -160,7 +164,7 @@ def playlists():
     print 'total time through playlists: ', end - start
     print 'user_ids ', user_ids
     print 'playlist_html ', playlist_html
-    print 'playlist_ids ', playlist_ids
+   # print 'playlist_ids ', playlist_ids
 
     # data = playlist_html
     data = all_data

@@ -8,7 +8,7 @@ class MSD_Queries:
         # self.conn = psycopg2.connect(dbname='msd', user='postgres', host='/tmp') # for local machine
         self.conn = psycopg2.connect(dbname='msd', user='ubuntu', host='/var/run/postgresql/') # for server
         self.c = self.conn.cursor()
-
+    
     def delete_user_stored_data(self, user_id):
         '''
         INPUT: user_id
