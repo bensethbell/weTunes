@@ -94,10 +94,10 @@ app.get('/callback', function(req, res) {
       },
       json: true
     };
-
+    console.log('got to request.post');
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-
+        console.log('no error');
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
@@ -114,7 +114,7 @@ app.get('/callback', function(req, res) {
           var display_name = body['display_name'];
 
         
-        debugger;
+       // debugger;
 
         console.log("redirecting to flask");
         // we can also pass the token to the browser to make requests from there
@@ -143,6 +143,7 @@ app.get('/callback', function(req, res) {
       }
     });
   }
+  console.log('end of dubugger');
 });
 
 app.get('/refresh_token', function(req, res) {
