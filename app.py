@@ -141,7 +141,7 @@ def playlists():
         all_data[idx]['playlist_id'] = p_id
         '''
 
-        all_data[idx]['playlist_html'] = embed_base + playlist_names[idx].replace(' ', '') + ':' + ,'.join(playlist)'
+        all_data[idx]['playlist_html'] = embed_base + playlist_names[idx].replace(' ', '') + ':' + ','.join(playlist)
         # all_data[idx]['playlist_html'] = embed_base + str(playlist_id) //keep in final
         all_data[idx]['seed_artist_names'] = playlist_seed_names[idx].decode('utf-8')
         # all_data[idx]['seed_artist_names'] = all_data[idx]['seed_artist_names'].encode('ascii','ignore')
