@@ -129,6 +129,13 @@ app.get('/callback', function(req, res) {
           }));
         });
       } else {
+        if(error)
+          console.log(error); //adding in to throw error
+
+        else 
+          console.log('error thrown');
+
+
         res.redirect('/#' +
           querystring.stringify({
             error: 'invalid_token'
