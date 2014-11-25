@@ -80,6 +80,10 @@ app.get('/callback', function(req, res) {
     console.log(state === null);
     console.log('state !== storedState');
     console.log(state !== storedState);
+    console.log('state');
+    console.log(state);
+    console.log('stored state');
+    console.log(storedState);
     res.redirect('/#' +
       querystring.stringify({
         error: 'state_mismatch'
