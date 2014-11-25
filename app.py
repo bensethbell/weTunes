@@ -125,6 +125,7 @@ def playlists():
     #user_ids = [i.decode('utf-8') for i in user_ids]
     print 'user ids utf-8 ', user_ids
     playlist_names = playlist_names[:n_playlists]
+    print 'playlist_names: ', playlist_names
     #embed_base = "https://embed.spotify.com/?uri=https://play.spotify.com/user/1248440864/playlist/" # for playlists
     embed_base = "https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:" # for list of tracks
     for idx, playlist in enumerate(playlist_spotify_id_list[:n_playlists]):
@@ -140,7 +141,7 @@ def playlists():
         all_data[idx]['playlist_id'] = p_id
         '''
 
-        all_data[idx]['playlist_html'] = embed_base + '5Z7ygHQo02SUrFmcgpwsKW,1x6ACsKV4UdWS2FMuPFUiT,4bi73jCM02fMpkI11Lqmfe'
+        all_data[idx]['playlist_html'] = embed_base + ','.join(playlist)
         # all_data[idx]['playlist_html'] = embed_base + str(playlist_id) //keep in final
         all_data[idx]['seed_artist_names'] = playlist_seed_names[idx].decode('utf-8')
         # all_data[idx]['seed_artist_names'] = all_data[idx]['seed_artist_names'].encode('ascii','ignore')
