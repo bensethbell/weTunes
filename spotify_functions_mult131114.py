@@ -434,7 +434,9 @@ class SpotifyFunctionsPublic:
             for item in user_playlists_tmp['items']:
                 user_playlists.append(item)
                 playlist_id = item['id']
+                print 'playlist_id', playlist_id
                 owner = item['owner']['id']
+                print 'playlist owner', owner
                 playlist_data = self.s.user_playlist(owner, playlist_id)
                 user_playlist_objects.append(playlist_data)
 
