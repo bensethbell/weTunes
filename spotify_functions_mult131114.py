@@ -465,7 +465,8 @@ class SpotifyFunctionsPublic:
 
         df_artist_data = pd.DataFrame(artist_data)
         df_artist_data['count'] = 1
-        print 'artist data ', df_artist_data
+        print 'artist data user df:'
+        print df_artist_data
         df_artist_data = df_artist_data.groupby('artist_id_spotify').agg({'artist_name': min, 'count': np.sum}).reset_index()
 
         # creating artist name column that will sync w sql database
@@ -474,6 +475,8 @@ class SpotifyFunctionsPublic:
 
         artist_ids = list(df_artist_data['artist_id_spotify'].values)
         artist_names = list(df_artist_data['artist_name_sql'].values)
+        print 'artist ids:', artist_ids
+        print 'artist names: ', artist_names
 
         # getting echonest ids for each artist name from sql database
         df_echonest_ids = self.get_echonest_ids_by_artistname(artist_names)
@@ -525,9 +528,13 @@ class SpotifyFunctionsPublic:
         INPUT: list of artist names`
         OUTPUT: echonest ids of artists from msd database
         '''
+        print 'artist names', list_artist_names
         list_artist_names_clean = [i.replace("'",'"') for i in list_artist_names]
+        print 'clean artist names', list_artist_names_clean
         echonest_ids = self.m.get_artist_ids(list_artist_names_clean)
+        print 'echonest artist ids:', echonest_ids
         df = pd.DataFrame(echonest_ids)
+        print 'user artist df:', df
         df.columns = ['artist_id', 'artist_name']
         df['artist_name'] = df['artist_name'].apply(lambda x: x.encode('ascii', 'encode'))
         if unique:
