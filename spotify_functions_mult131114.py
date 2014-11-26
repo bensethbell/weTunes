@@ -545,7 +545,8 @@ class SpotifyFunctionsPublic:
                 df = df_unique[['artist_id', 'artist_name']]
         else:
             # create empty dataframe
-            colums = ['artist_id', 'artist_name']
+            print 'no echonest data found for users artists'
+            columns = ['artist_id', 'artist_name']
             df = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
         return df
 
