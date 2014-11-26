@@ -437,8 +437,11 @@ class SpotifyFunctionsPublic:
                 print 'playlist_id', playlist_id
                 owner = item['owner']['id']
                 print 'playlist owner', owner
-                playlist_data = self.s.user_playlist(owner, playlist_id)
-                user_playlist_objects.append(playlist_data)
+                try:
+                    playlist_data = self.s.user_playlist(owner, playlist_id)
+                    user_playlist_objects.append(playlist_data)
+                except:
+                    print 'error in adding playlist'
 
             x += lim
 
