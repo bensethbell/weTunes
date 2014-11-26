@@ -352,13 +352,13 @@ class SpotifyFunctionsPublic:
             df_pipeline = self.m.get_user_stored_data(user_id)
             print 'getting stored public data'
         else:
-            'replacing data..'
+            print 'collecting and storing data..'
             ''' OLD CODE '''
             user_playlists = self.get_user_public_playlists(user_id)
             if len(user_playlists) > 0:
                 print len(user_playlists)
                 df_pipeline, artist_data_echonest = self.get_playlist_data(user_id)
-                print df_pipeline
+                print 'user df pipeline', df_pipeline
                 ''' END OF OLD CODE '''
                 if update == True:
                     self.m.delete_user_stored_data(user_id)
