@@ -533,15 +533,20 @@ class SpotifyFunctionsPublic:
         print 'clean artist names', list_artist_names_clean
         echonest_ids = self.m.get_artist_ids(list_artist_names_clean)
         print 'echonest artist ids:', echonest_ids
-        df = pd.DataFrame(echonest_ids)
-        print 'user artist df:', df
-        df.columns = ['artist_id', 'artist_name']
-        df['artist_name'] = df['artist_name'].apply(lambda x: x.encode('ascii', 'encode'))
-        if unique:
-            df['count'] = 1
-            df_agg = df.groupby(['artist_name']).agg({'artist_id': min, 'count': sum}).reset_index()
-            df_unique = df_agg[df_agg['count'] == 1]
-            df = df_unique[['artist_id', 'artist_name']]
+        if len(echonest_ids) > 0:
+            df = pd.DataFrame(echonest_ids)
+            print 'user artist df:', df
+            df.columns = ['artist_id', 'artist_name']
+            df['artist_name'] = df['artist_name'].apply(lambda x: x.encode('ascii', 'encode'))
+            if unique:
+                df['count'] = 1
+                df_agg = df.groupby(['artist_name']).agg({'artist_id': min, 'count': sum}).reset_index()
+                df_unique = df_agg[df_agg['count'] == 1]
+                df = df_unique[['artist_id', 'artist_name']]
+        else:
+            # create empty dataframe
+            colums = ['artist_id', 'artist_name']
+            df = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
         return df
 
 
