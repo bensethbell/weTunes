@@ -61,7 +61,7 @@ def playlists():
     s = spotify_functions.SpotifyFunctionsPublic()
     start = time.time()
     print 'in playlists'
-    n_playlists = 5
+    n_playlists = 8
 
     ''' Step 1: Getting private data from logged in user '''
     priv_check = False
