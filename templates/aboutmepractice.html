@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>WeTunes! Group Music Discovery</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <!-- <link rel=stylesheet type=text/css href="{{ 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css' }}"> -->
+    <!-- Custom styles for this template -->
+    <link href="../static/signin.css" rel="stylesheet">
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='signin.css') }}"> -->
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+   
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  <style>
+
+  body {
+    padding-top:10px;
+    background: url(http://blog.funeralone.com/wp-content/uploads/2014/05/Headphones-Gray-Music.jpg) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+  }
+
+  #aboutme {
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+/*    color:"#E8E8EE";*/
+    /*background-color:#E8E8EE;*/
+    background-color:#e7e7e7;
+    padding-top: 15px;
+    padding-bottom: 45px;
+    padding-left: 60px;
+    padding-right: 60px;
+/*    fill:"#E8E8EE";*/
+    border:1px solid #000;
+    box-shadow;
+    filter:drop-shadow;
+  }
+
+  .bg-info2 {
+  background-color: #E8E8EE;
+  }
+  </style>
+  </head>
+
+  <body>
+        <style type="text/css">
+      #loadingmsg {
+      color: black;
+/*      background: #fff; */
+      padding: 10px;
+      position: fixed;
+      top: 40%;
+      left: 46%;
+      z-index: 100;
+      margin-right: -25%;
+      margin-bottom: -25%;
+      }
+      #loadingover {
+      background: black;
+      z-index: 99;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+      filter: alpha(opacity=80);
+      -moz-opacity: 0.8;
+      -khtml-opacity: 0.8;
+      opacity: 0.8;
+    }
+    </style>
+
+<!-- NAVBAR
+================================================== -->
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">WeTunes</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">About</a></li>
+                <li><a href="#about">Login</a></li>
+                <li><a href="#contact">Quick Start</a></li>
+<!--                 <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li> -->
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+<!-- NAVBAR
+================================================== -->
+
+<!-- 
+changes from previous versions:
+changing padding in body to 10px to allow for navbar
+adding in padding in h1 title to push everything else down
+- changing the  -->
+<!-- creating padding from top -->
+<!-- 
+<div id='loadingmsg'><img src= "../static/images/loading_icon.gif" alt = 'Loading Gif' style="background-color: inherit; border: none;" ></div>
+<div id='loadingmsg'><img src= "../static/images/loading_icon.gif" alt = 'Loading Gif' style="background-color: block; border: none;" ></div>
+<div id='loadingmsg'><img src= "../static/images/loading_icon.gif" alt = 'Loading Gif' ></div> -->
+<!--     <h1 class="text-primary" style = 'text-align:center; padding-top:50px'>
+      <strong>
+      Quick Start: Let's get you some playlists!
+      </strong>
+      <br>
+      <small style = 'color:#E8E8EE'>Enter the Spotify IDs of your group below:</small>
+    </h1> -->
+    <div style = 'padding-top:30px;'></div>
+    <div class="container" id = 'aboutme'>
+      <!-- <div class="bg-info" id='aboutme'> -->
+
+<h1>About WeTunes</h1>
+
+<h3>What is WeTunes?</h3>
+
+<p>WeTunes is a platform for group music discovery. Having a dinner party with your friends but don’t know what to play? weTun.es will take Spotify IDs from group members and generates a series of distinct and internally consistent playlists that your whole group will enjoy</p>
+
+<h3>Instructions</h3>
+
+<ol>
+<li>Login using your Spotify ID on the WeTunes login page</li>
+<li>Once you are logged in, you will be redirected to the group sign in page. Write in the Spotify IDs of your friends.</li>
+<li>Click "Create Group Session", and WeTunes will create a list of playlists that we think your whole group will enjoy!</li>
+</ol>
+
+<h3>How does it work?</h3>
+
+<h4>The Data</h4>
+
+
+<li>Million Song Database</li>
+<ul><li>artist tags (eg. Method Man: hip-hop, 90s)</li>
+<li>similar artists (eg. Method Man: Redman)</li></ul></li>
+<li>Taste Profiles
+<ul><li>Listen data for 1MM users</li></ul></li>
+
+</ul>
+
+<h4>Step 1: Preprocessing</h4>
+
+<ul>
+<li>WeTunes' recommendation engine is built off of the user-listen data in the Taste Profiles by creating an artist-artist similarity matrix to be used for collaborative filtering</li>
+</ul>
+
+<h4>Step 2: Creating a group session</h4>
+
+<ul>
+<li>When users sign in to the weTun.es home page they create a group session by entering the Spotify IDs for every member of the group</li>
+</ul>
+
+<h4>Step 3: Individual Artist Recommendation</h4>
+
+<ul>
+<li>WeTunes queries the Spotify API to get all of the public playlists for each user</li>
+<li>WeTunes counts artist appearances and considers each artist appearance to be one 'play' for a song of that artist</li>
+<li>once this 'implicit listen data' is created for each user, it is fed through the collaborative filter to get a list of preference scores for each user for each artist</li>
+</ul>
+
+<h4>Step 4: Group Artist Recommendation</h4>
+
+<ul>
+<li>From the individual lists of user preferences, weTun.es takes a list of the top 200 artists for each user</li>
+<li>WeTunes then creates a list of group preferences using 'Least Misery' - assigning each artist the lowest preference score it recieved from any member of the group</li>
+</ul>
+
+<h4>Step 5: Clustering</h4>
+
+<ul>
+<li>Once the group list is created, Affinity Propogation is implemented to group artists together with those that are most similar</li>
+<li>Affinity propogation, as opposed to K-Means, clusters solely based on similarity and therefore will make an appropriate number of clusters dependent upon the level of similarity between the preferences of the group members</li>
+</ul>
+
+<h4>Step 6: Playlists for All!</h4>
+
+<ul>
+<li>Once the clusters are created, the top 5 artists from each cluster are taken as 'playlist seeds'</li>
+<li>the groups of playlists seeds are then ranked by average user preference for those 5 artists</li>
+<li>WeTunes queries the Echonest API to create playlists based on the seed artists for each group of playlist seeds</li>
+<li>WeTunes receives back a list of songs for each playlist, and creates the playlist in Spotify through the Spotify API</li>
+<li>WeTunes then renders the Spotify playlists on its site for the group to listen to and enjoy!</li>
+</ul>
+
+
+
+    </p> 
+
+    </div> <!-- /container -->
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
