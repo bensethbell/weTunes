@@ -356,7 +356,7 @@ class SpotifyFunctionsPublic:
             ''' OLD CODE '''
             user_playlists = self.get_user_public_playlists(user_id)
             if len(user_playlists) > 0:
-                print len(user_playlists)
+                print 'number of playlists: ', len(user_playlists)
                 df_pipeline, artist_data_echonest = self.get_playlist_data(user_id)
                 print 'user df pipeline', df_pipeline
                 ''' END OF OLD CODE '''
@@ -464,8 +464,10 @@ class SpotifyFunctionsPublic:
             # owner = playlist_dic['owner']['id']
             # playlist_data = self.s.user_playlist(owner, playlist_id)
 
-            for item in playlist_data['tracks']['items']:
+            for idx, item in enumerate(playlist_data['tracks']['items']):
+                print idx
                 dic = {}
+                print 'item artist dic: ', item['track']['artists'][0]
                 dic['artist_name'] = item['track']['artists'][0]['name']
                 dic['artist_id_spotify']= item['track']['artists'][0]['id']
                 artist_data.append(dic)
