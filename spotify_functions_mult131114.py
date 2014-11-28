@@ -496,7 +496,8 @@ class SpotifyFunctionsPublic:
         print 'artist names: ', artist_names
 
         # getting echonest ids for each artist name from sql database
-        df_echonest_ids = self.get_echonest_ids_by_artistname(artist_names)
+        if len(artist_names) > 0:
+            df_echonest_ids = self.get_echonest_ids_by_artistname(artist_names)
 
         # joining echonest ids to artist data dataframe
         df_artist_data_echonest = df_echonest_ids.merge(df_artist_data, how = 'left', on = 'artist_name')
