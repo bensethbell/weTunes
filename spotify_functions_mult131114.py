@@ -472,12 +472,18 @@ class SpotifyFunctionsPublic:
                     artist_data.append(dic)
                 except:
                     print 'error in getting artist data for user %s, item %d' % (user_id, idx)
+ 
+        print 'len artist_data ', len(artist_data)
+        if len(artist_data) > 0 :
+            df_artist_data = pd.DataFrame(artist_data)
+            df_artist_data['count'] = 1
+            print 'artist data user df:'
+            print df_artist_data
 
+        else:
+            columns = ['artist_id_spotify', 'artist_name', 'count']
+            df_artist_data = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
 
-        df_artist_data = pd.DataFrame(artist_data)
-        df_artist_data['count'] = 1
-        print 'artist data user df:'
-        print df_artist_data
         df_artist_data = df_artist_data.groupby('artist_id_spotify').agg({'artist_name': min, 'count': np.sum}).reset_index()
 
         # creating artist name column that will sync w sql database
