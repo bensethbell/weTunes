@@ -36,9 +36,9 @@ model = gl.load_model('artist_sim_model_triplets') # have in final
 def index():
     return render_template('index.html')
 
-@app.route('/sign_in')
-def sign_in():
-    return render_template()
+@app.route('/about')
+def about():
+    return render_template('/aboutmepractice.html')
 
 @app.route('/group_login_signin', methods = ['GET'])
 def group_login_signin():
@@ -50,6 +50,7 @@ def group_login_signin():
     data = [access_token, refresh_token, user_id, display_name]
     # ipdb.set_trace()
     return render_template('/group_login_signin.html', data = data)
+
 
 @app.route('/group_login_quickstart')
 def group_login():
