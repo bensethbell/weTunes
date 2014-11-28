@@ -35,7 +35,7 @@
   <style>
 
   body {
-
+    padding-top:10px
     background: url(http://blog.funeralone.com/wp-content/uploads/2014/05/Headphones-Gray-Music.jpg) no-repeat center center fixed; 
       -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -60,13 +60,55 @@
   </head>
 
   <body>
+            <!-- NAVBAR
+================================================== -->
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">WeTunes</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><a href='http://54.165.90.151:7000/about'>About</a></li>
+                <li class="active"><a href='http://54.165.90.151:7777'>Login</a></li>
+                <li><a href='http://54.165.90.151:7000/group_login_quickstart'>Quick Start</a></li>
+<!--                 <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li> -->
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+<!-- NAVBAR
+================================================== -->
 <!--     <div style = 'height: 100px'></div> -->
-    <h1 class="text-primary" style = 'text-align:center'>
+    <h1 class="text-primary" style = 'text-align:center; padding-top:40px; text-shadow: 0 0 0.01em #333333'>
       <strong>
       Welcome to weTunes!
       </strong>
       <br>
-      <small style = 'color:#E8E8EE'>Please login with Spotify below:</small>
+      <small style = 'color:#E8E8EE; text-shadow: 0 0 0.1em #333333'>Please login with Spotify below:</small>
     </h1>
     <div class="container">
       <div id="login">
