@@ -500,11 +500,17 @@ class SpotifyFunctionsPublic:
             df_echonest_ids = self.get_echonest_ids_by_artistname(artist_names)
 
         # joining echonest ids to artist data dataframe
-        df_artist_data_echonest = df_echonest_ids.merge(df_artist_data, how = 'left', on = 'artist_name')
+            df_artist_data_echonest = df_echonest_ids.merge(df_artist_data, how = 'left', on = 'artist_name')
 
-        # making sure no multiples coming of move
-        if len(df_artist_data_echonest) != len(df_echonest_ids):
-            print 'Warning! Merging caused duplication' #could aggregate by name and take max count but leave like this for now
+            # making sure no multiples coming of move
+            if len(df_artist_data_echonest) != len(df_echonest_ids):
+                print 'Warning! Merging caused duplication' #could aggregate by name and take max count but leave like this for now
+
+        else:
+            # make empty df
+            print 'no artist data'
+            columns = ['artist_id','count']
+            df_artist_data_echonest = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
 
         '''
         For artist names not found in database:
