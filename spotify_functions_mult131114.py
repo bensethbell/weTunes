@@ -465,12 +465,13 @@ class SpotifyFunctionsPublic:
             # playlist_data = self.s.user_playlist(owner, playlist_id)
 
             for idx, item in enumerate(playlist_data['tracks']['items']):
-                print idx
                 dic = {}
-                print 'item artist dic: ', item['track']['artists'][0]
-                dic['artist_name'] = item['track']['artists'][0]['name']
-                dic['artist_id_spotify']= item['track']['artists'][0]['id']
-                artist_data.append(dic)
+                try:
+                    dic['artist_name'] = item['track']['artists'][0]['name']
+                    dic['artist_id_spotify']= item['track']['artists'][0]['id']
+                    artist_data.append(dic)
+                except:
+                    print 'error in getting artist data for user %s, item %d' % (user_id, idx)
 
 
         df_artist_data = pd.DataFrame(artist_data)
