@@ -31,7 +31,7 @@ soft, hard = resource.getrlimit(rsrc)
 print 'Soft limit starts as  :', soft
 print 'Hard limit starts as: ', hard
 
-resource.setrlimit(rsrc, (1024, 1024)) #limit to one kilobyte
+resource.setrlimit(rsrc, (1, 1)) #limit to one kilobyte
 
 soft, hard = resource.getrlimit(rsrc)
 print 'Soft limit changed to :', soft
