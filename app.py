@@ -23,6 +23,20 @@ the user submitted form data, and returns the result of your prediction.
 
 '''
 
+''' setting RAM limit to test for migration '''
+import resource
+
+rsrc = resource.RLIMIT_DATA
+soft, hard = resource.getrlimit(rsrc)
+print 'Soft limit starts as  :', soft
+print 'Hard limit starts as: ', hard
+
+resource.setrlimit(rsrc, (1024, hard)) #limit to one kilobyte
+
+soft, hard = resource.getrlimit(rsrc)
+print 'Soft limit changed to :', soft
+
+''' end of testing code '''
 
 app = Flask(__name__)
 
@@ -30,6 +44,10 @@ app = Flask(__name__)
 s = spotify_functions.SpotifyFunctionsPublic()
 model = gl.load_model('artist_sim_model_triplets') # have in final
 # df_preload = pd.read_csv('liza_ben_df.csv')[['user','artist_id','play_count']] # remove from final
+
+
+
+
 
 
 @app.route('/')
