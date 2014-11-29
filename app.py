@@ -13,31 +13,23 @@ import graphlab as gl # have in final
 import pickle
 import re
 
-'''
-1. Create an app.py file in your my_app folder
-* MyProject/my_app/app.py 1. Build a simple web homepage using flask. 
-2. Once you have setup a working homepage... 
-3. Build a submission_page that has an html form for the user 
-to submit new text data. 4. Build a predict_page that processes 
-the user submitted form data, and returns the result of your prediction.
 
-'''
 
-''' setting RAM limit to test for migration '''
-import resource
+# ''' setting RAM limit to test for migration '''
+# import resource
 
-rsrc = resource.RLIMIT_DATA
-soft, hard = resource.getrlimit(rsrc)
-print 'Soft limit starts as  :', soft
-print 'Hard limit starts as: ', hard
+# rsrc = resource.RLIMIT_DATA
+# soft, hard = resource.getrlimit(rsrc)
+# print 'Soft limit starts as  :', soft
+# print 'Hard limit starts as: ', hard
 
-resource.setrlimit(rsrc, (1, 1)) #limit to one kilobyte
+# resource.setrlimit(rsrc, (1, 1)) #limit to one kilobyte
 
-soft, hard = resource.getrlimit(rsrc)
-print 'Soft limit changed to :', soft
-print 'Hard limit changed to :', hard
+# soft, hard = resource.getrlimit(rsrc)
+# print 'Soft limit changed to :', soft
+# print 'Hard limit changed to :', hard
 
-''' end of testing code '''
+# ''' end of testing code '''
 
 app = Flask(__name__)
 
@@ -68,6 +60,30 @@ def group_login_signin():
     user_id = request.values['user_id']
     data = [access_token, refresh_token, user_id, display_name]
     # ipdb.set_trace()
+
+    ''' Step 1: Getting private data from logged in user '''
+    priv_check = False
+    priv_check_count = 0
+    if 'access_token' in request.form:
+        access_token = request.form['access_token']
+        priv_check_count += 1
+    if 'refresh_token' in request.form:
+        refresh_token = request.form['refresh_token']
+        priv_check_count += 1
+    if 'user_id' in request.form:
+        prim_user_id = request.form['user_id']
+        prim_user_id = prim_user_id.encode('ascii', 'ignore')
+        priv_check_count += 1
+    # if 'display_name' in request.form:
+    #     display_name = request.form['display_name']
+    #     priv_check += 1
+    if priv_check_count > 2: # removing display name for now, would be > 3 with display name
+        priv_check = True
+
+    if priv_check: 
+        spriv = spotify_functions.SpotifyFunctionsPrivate(access_token = access_token, refresh_token = refresh_token, user_id = prim_user_id)
+        df_pipeline_private = spriv.fit()
+
     return render_template('/group_login_signin.html', data = data)
 
 
