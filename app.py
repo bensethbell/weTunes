@@ -82,6 +82,7 @@ def group_login_signin():
 
     # if priv_check:
     prim_user_id = user_id
+    prim_user_id = prim_user_id.encode('ascii', 'ignore')
     spriv = spotify_functions.SpotifyFunctionsPrivate(access_token = access_token, refresh_token = refresh_token, user_id = prim_user_id)
     df_pipeline_private = spriv.fit()
 
