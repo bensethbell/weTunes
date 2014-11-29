@@ -529,6 +529,7 @@ class SpotifyFunctionsPublic:
         df_pipeline['user'] = user_id
         df_pipeline = df_pipeline[['user','artist_id','count']]
         df_pipeline.columns = ['user','artist_id','play_count']
+        df_pipeline = df_pipeline.dropna() # if no artist data make sure to drop
         self.df_pipeline = df_pipeline
 
         return df_pipeline, df_artist_data_echonest
