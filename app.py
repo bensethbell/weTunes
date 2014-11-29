@@ -80,7 +80,8 @@ def group_login_signin():
     # if priv_check_count > 2: # removing display name for now, would be > 3 with display name
     #     priv_check = True
 
-    # if priv_check: 
+    # if priv_check:
+    prim_user_id = user_id
     spriv = spotify_functions.SpotifyFunctionsPrivate(access_token = access_token, refresh_token = refresh_token, user_id = prim_user_id)
     df_pipeline_private = spriv.fit()
 
