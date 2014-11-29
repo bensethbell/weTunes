@@ -61,28 +61,28 @@ def group_login_signin():
     data = [access_token, refresh_token, user_id, display_name]
     # ipdb.set_trace()
 
-    ''' Step 1: Getting private data from logged in user '''
-    priv_check = False
-    priv_check_count = 0
-    if 'access_token' in request.form:
-        access_token = request.form['access_token']
-        priv_check_count += 1
-    if 'refresh_token' in request.form:
-        refresh_token = request.form['refresh_token']
-        priv_check_count += 1
-    if 'user_id' in request.form:
-        prim_user_id = request.form['user_id']
-        prim_user_id = prim_user_id.encode('ascii', 'ignore')
-        priv_check_count += 1
-    # if 'display_name' in request.form:
-    #     display_name = request.form['display_name']
-    #     priv_check += 1
-    if priv_check_count > 2: # removing display name for now, would be > 3 with display name
-        priv_check = True
+    # ''' Step 1: Getting private data from logged in user '''
+    # priv_check = False
+    # priv_check_count = 0
+    # if 'access_token' in request.form:
+    #     access_token = request.form['access_token']
+    #     priv_check_count += 1
+    # if 'refresh_token' in request.form:
+    #     refresh_token = request.form['refresh_token']
+    #     priv_check_count += 1
+    # if 'user_id' in request.form:
+    #     prim_user_id = request.form['user_id']
+    #     prim_user_id = prim_user_id.encode('ascii', 'ignore')
+    #     priv_check_count += 1
+    # # if 'display_name' in request.form:
+    # #     display_name = request.form['display_name']
+    # #     priv_check += 1
+    # if priv_check_count > 2: # removing display name for now, would be > 3 with display name
+    #     priv_check = True
 
-    if priv_check: 
-        spriv = spotify_functions.SpotifyFunctionsPrivate(access_token = access_token, refresh_token = refresh_token, user_id = prim_user_id)
-        df_pipeline_private = spriv.fit()
+    # if priv_check: 
+    spriv = spotify_functions.SpotifyFunctionsPrivate(access_token = access_token, refresh_token = refresh_token, user_id = prim_user_id)
+    df_pipeline_private = spriv.fit()
 
     return render_template('/group_login_signin.html', data = data)
 
