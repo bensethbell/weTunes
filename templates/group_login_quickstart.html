@@ -52,7 +52,7 @@
         {% for i in data %}
         username = "#user_" + {{str(cnt + 1)}} 
         $(username).val({{i}})
-        {% set cnt = cnt + 1}
+        {% set cnt = cnt + 1 %}
       {% endfor %}
       // $("#user_1").val({{data[0]}})
       // $("#user_2").val({{data[1]}})
