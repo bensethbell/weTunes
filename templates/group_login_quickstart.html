@@ -47,6 +47,15 @@
     }
   </script>
   <script>
+    function getRandom(arr, size) {
+      var copy = arr.slice(0), rand = [];
+      for (var i = 0; i < size && i < copy.length; i++) {
+        var index = Math.floor(Math.random() * copy.length);
+        rand.push(copy.splice(index, 1)[0]);
+      }
+      return rand;
+    }
+
     function randomUsernames() {
       var usernames = [];
       var i = 0;
@@ -54,7 +63,7 @@
       usernames.push("{{i}}")
       {% endfor %}
 
-
+      var username_sample = getRandom(usernames, 5)
 
       for (i = 0; i < usernames.length; i++) {
         username = "#user_" + String(i + 1)
@@ -153,7 +162,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit" style = 'margin-top:10px;'>Create Group Session</button>
         
       </form>
-      <div style = 'text-align: center;'
+      <div style = 'text-align: center;'>
         <button onclick="randomUsernames()" style = 'margin-top:10px;'>Generate Random Usernames</button>
       </div>
 
