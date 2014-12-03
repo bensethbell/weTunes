@@ -50,7 +50,7 @@
     function randomUsernames() {
       {% set cnt = 0 %}
         {% for i in data %}
-        username = "#user_" + {{str(cnt + 1)}} 
+        username = "#user_" + String({{cnt + 1}})
         $(username).val({{i}})
         {% set cnt = cnt + 1 %}
       {% endfor %}
