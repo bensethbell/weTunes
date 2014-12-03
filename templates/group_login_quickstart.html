@@ -65,9 +65,9 @@
 
       var username_sample = getRandom(usernames, 5)
 
-      for (i = 0; i < usernames.length; i++) {
+      for (i = 0; i < username_sample.length; i++) {
         username = "#user_" + String(i + 1)
-        $(username).val(usernames[i])
+        $(username).val(username_sample[i])
       };
 
 
