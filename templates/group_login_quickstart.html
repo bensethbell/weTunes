@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <title>WeTunes! Group Music Discovery</title>
 
     <!-- Bootstrap core CSS -->
@@ -30,7 +30,7 @@
     <![endif]-->
 
   <style>
-
+  
   body {
     padding-top:10px;
     background: url(http://blog.funeralone.com/wp-content/uploads/2014/05/Headphones-Gray-Music.jpg) no-repeat center center fixed; 
@@ -44,6 +44,12 @@
     function showLoading() {
         document.getElementById('loadingmsg').style.display = 'block';
         document.getElementById('loadingover').style.display = 'block';
+    }
+  </script>
+  <script>
+    function randomUsernames() {
+      
+
     }
   </script>
   </head>
@@ -121,6 +127,7 @@
 
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" style = 'margin-top:10px;'>Create Group Session</button>
+        <button class="btn btn-lg btn-primary btn-block" onclick="randomUsernames()" style = 'margin-top:10px;'>Generate Random Usernames</button>
       </form>
 
     </div> 
