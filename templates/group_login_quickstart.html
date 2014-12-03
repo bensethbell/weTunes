@@ -48,10 +48,24 @@
   </script>
   <script>
     function randomUsernames() {
+      var usernames = [];
+      var i = 0;
+      {% for i in data %} 
+      usernames.push("{{i}}")
+      {% endfor %}
+
+
+
+      for (i = 0; i < usernames.length; i++) {
+        username = "#user_" + String(i + 1)
+        $(username).val(usernames[i])
+      };
+
+
       {% set cnt = 0 %}
         {% for i in data %}
-        username = "#user_" + String({{cnt + 1}})
-        $(username).val("{{i}}")
+        // username = "#user_" + String({{cnt + 1}})
+        // $(username).val("{{i}}")
         {% set cnt = cnt + 1 %}
       {% endfor %}
       // $("#user_1").val({{data[0]}})
@@ -139,7 +153,9 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit" style = 'margin-top:10px;'>Create Group Session</button>
         
       </form>
-        <button onclick="randomUsernames()" style = 'margin-top:10px;' align = 'center'>Generate Random Usernames</button>
+      <div style = 'text-align: center;'
+        <button onclick="randomUsernames()" style = 'margin-top:10px;'>Generate Random Usernames</button>
+      </div>
 
     </div> 
 
