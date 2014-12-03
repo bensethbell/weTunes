@@ -95,7 +95,11 @@ def group_login_signin():
 @app.route('/group_login_quickstart')
 def group_login():
     # for user coming from quick start
-    random_usernames = random.sample(username_list, 100)
+    n_sample = 100
+    if len(username_list) > n_sample:
+        random_usernames = username_list
+    else:
+        random_usernames = random.sample(username_list, n_sample)
     print random_usernames
     return render_template('/group_login_quickstart.html', data = random_usernames)
 
