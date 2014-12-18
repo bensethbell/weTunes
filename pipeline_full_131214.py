@@ -1,3 +1,8 @@
+
+'''
+PURPOSE: PIPELINE FROM USER DATA TO GROUP RECOMMENDATION
+'''
+
 from sklearn.cluster import KMeans, AffinityPropagation
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 import msd_sql_functions as msd
@@ -405,7 +410,6 @@ class ArtistClusterAF:
         # creating boolean mask for penalization and penalizing
         psd_group['count'] = psd_group['count'].apply(lambda x: x < penalize_less_than)
   
-        ipdb.set_trace()
         #adding this to get actual min instead of average of min for each artist, will take min of count but shouldn't be a problem since count >= 1
 
         psd_group['cluster_score'] = psd_group['cluster_score'] - penalization*psd_group['count']
