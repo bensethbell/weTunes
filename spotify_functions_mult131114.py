@@ -185,7 +185,7 @@ class SpotifyFunctionsPrivate:
 
     def get_playlist_artist_data(self):
 
-'''
+    '''
     def get_playlist_data(self, user_id):
       
         INPUT: all playlists
@@ -236,7 +236,7 @@ class SpotifyFunctionsPrivate:
         return artist_data
 
         
-'''
+    '''
     def get_playlist_data(self, user_id):
       
         INPUT: all playlists
@@ -316,7 +316,7 @@ class SpotifyFunctionsPrivate:
         self.df_pipeline = df_pipeline
 
         return df_pipeline, df_artist_data_echonest
-'''
+    '''
     def create_df_pipeline_from_artist_data(self, artist_data):
         '''
         INPUT: list of dictionaries for each artist containing 'artist_name' and 'artist_id_spotify' keys
@@ -324,7 +324,7 @@ class SpotifyFunctionsPrivate:
         '''
 
 
-'''
+    '''
     def get_playlist_data(self, user_id):
       
         INPUT: all playlists
