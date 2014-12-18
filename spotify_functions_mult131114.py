@@ -183,23 +183,6 @@ class SpotifyFunctionsPrivate:
         self.user_playlist_objects = user_playlist_objects
         return user_playlists
 
-                '''
-                user_playlists.append(item)
-                playlist_id = item['id']
-                owner = item['owner']['id']
-                playlist_data = self.s.user_playlist(owner, playlist_id)
-                user_playlist_objects.append(playlist_data)
-
-            x += lim
-        # adding in starred playlist
-        starred_playlist = self.s.user_playlist(user_id)
-        user_playlist_objects.append(starred_playlist)
-
-        self.user_playlists = user_playlists
-        self.user_playlist_objects = user_playlist_objects
-        return user_playlists
-        '''
-
     def get_playlist_artist_data(self):
 
 '''
