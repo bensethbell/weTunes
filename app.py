@@ -9,7 +9,7 @@ import time
 import pandas as pd
 import numpy as np
 import ipdb
-#import graphlab as gl # have in final
+import graphlab as gl # have in final
 import pickle
 import re
 import msd_sql_functions as msd
@@ -36,7 +36,7 @@ app = Flask(__name__)
 
 # load model and create SpotifyFunctions instance to call later
 s = spotify_functions.SpotifyFunctionsPublic()
-model = p.gl.load_model('artist_sim_model_triplets') # have in final
+model = gl.load_model('artist_sim_model_triplets') # have in final
 m = msd.MSD_Queries()
 username_list = [i[0] for i in m.gen_query('DISTINCT "user"', 'stored_listen_data')] # getting all usernames in database for generate random username buttons
 # df_preload = pd.read_csv('liza_ben_df.csv')[['user','artist_id','play_count']] # remove from final

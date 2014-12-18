@@ -8,8 +8,8 @@
  */
 // client_id = '530ddf60a0e840369395009076d9fde7', client_secret = 'd1974e81df054fb2bffa895b741f96f6', redirect_uri = 'https://github.com/bsbell21'
 // var ip_address = "10.0.1.14" // for local machine
-var ip_address = "54.165.90.151" // server ip
-// var ip_address = 'ec2-54-165-90-151.compute-1.amazonaws.com'
+var ip_address = "104.236.166.94" // server ip
+// var ip_address = 'ec2-104.236.166.94.compute-1.amazonaws.com'
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
@@ -129,7 +129,7 @@ app.get('/callback', function(req, res) {
         console.log("redirecting to flask");
         // we can also pass the token to the browser to make requests from there
         res.redirect('http://' + ip_address + ':7000/group_login_signin?' +
-        // res.redirect('http://54.165.90.151:7000/group_login_signin?' +
+        // res.redirect('http://104.236.166.94:7000/group_login_signin?' +
         // res.redirect(ip_address + ':7000/group_login_signin?' +
           querystring.stringify({
             user_id: user_id,
