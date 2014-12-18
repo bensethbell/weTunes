@@ -134,45 +134,6 @@ class SpotifyFunctionsPrivate:
         self.user_saved_tracks = user_saved_tracks
         return user_saved_tracks
 
-
-'''   
-
-
-    def get_user_public_playlists(self, user_id, lim = 50):
-    
-        INPUT: user_id
-        OUTPUT: list of users public playlists
-   
-        user_playlists = []
-        user_playlist_objects = []
-        user_playlists_init = self.s.user_playlists(user_id, limit = lim)
-        total_playlists = user_playlists_init['total']
-
-        x = 0 # initializing offset
-
-        while x < total_playlists:
-            user_playlists_tmp = self.s.user_playlists(user_id, limit = lim, offset = x)
-            for item in user_playlists_tmp['items']:
-                user_playlists.append(item)
-                playlist_id = item['id']
-                print 'playlist_id', playlist_id
-                owner = item['owner']['id']
-                print 'playlist owner', owner
-                if (playlist_id != None) and (owner != None):
-                    try:
-                        playlist_data = self.s.user_playlist(owner, playlist_id)
-                        user_playlist_objects.append(playlist_data)
-                    except:
-                        print 'error in adding playlist'
-                else:
-                    print 'error in adding playlist: owner or playlist_id does not exist'
-
-            x += lim
-
-        self.user_playlists = user_playlists
-        self.user_playlist_objects = user_playlist_objects
-        return user_playlists
-        '''
     def get_saved_track_artist_data(self):
         artist_data = []
         for item in self.user_saved_tracks:
