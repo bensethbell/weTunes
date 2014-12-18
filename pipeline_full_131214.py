@@ -388,7 +388,7 @@ class ArtistClusterAF:
         psd_group = psd_group[psd_group.columns - [self.name_col, self.item_col, self.score_col]]
         # setting cluster to index so np.mean will work on all columns but cluster
         psd_group = psd_group.set_index('cluster')
-        ipdb.set_trace()
+ 
         psd_group['cluster_score'] = np.min(psd_group, axis = 1) # least misery ranking
         #psd_group['cluster_score'] = np.mean(psd_group, axis = 1) # average happiness ranking
         # resetting index and then grouping 
@@ -407,6 +407,7 @@ class ArtistClusterAF:
         # creating boolean mask for penalization and penalizing
         psd_group['count'] = psd_group['count'].apply(lambda x: x < penalize_less_than)
   
+        ipdb.set_trace()
         #adding this to get actual min instead of average of min for each artist, will take min of count but shouldn't be a problem since count >= 1
         psd_group['cluster_score'] = np.min(psd_group, axis = 1)
 
