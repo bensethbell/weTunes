@@ -407,6 +407,9 @@ class ArtistClusterAF:
         # creating boolean mask for penalization and penalizing
         psd_group['count'] = psd_group['count'].apply(lambda x: x < penalize_less_than)
   
+        #adding this to get actual min instead of average of min for each artist, will take min of count but shouldn't be a problem since count >= 1
+        psd_group['cluster_score'] = np.min(psd_group, axis = 1)
+
         psd_group['cluster_score'] = psd_group['cluster_score'] - penalization*psd_group['count']
         # removing count column
    
