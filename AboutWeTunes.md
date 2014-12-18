@@ -9,11 +9,18 @@ WeTunes is a platform for group music discovery. Having a dinner party with your
 2. Once you are logged in, you will be redirected to the group sign in page. Write in the Spotify IDs of your friends.
 3. Click "Create Group Session", and WeTunes will create a list of playlists that we think your whole group will enjoy!
 
+Note: you can also create a groups session without logging in using "Quick Start". However, recommendations will be better if you log in as WeTunes will be able to use your whole library rather than just your public playlists to figure out what you like. Although logging in will slow down the process as the data is collected, once you log in once WeTunes will remember your preferences and will be much faster in the future!
+
+
 ### How does it work?
 
 #### The Data
-- WeTunes core recommendation engine was built using the Million Song Database and Taste Profiles made public by Echonest
-- The following data was used to create features for each artist that 
+
+The Million Song Database and Taste Profiles, released by Echonest in 2011, form the core of WeTunes' recommendation engine. From the Taste Profile Data
+
+W
+eTunes' core recommendation engine was built using the Million Song Database and Taste Profiles made public by Echonest
+- Taste Profiles contained listen data for 1MM users, this listen data was aggregated to an artist level and used to create an artist-artist similarity matrix
 
 - Million Song Database
 	- artist tags (eg. Method Man: hip-hop, 90s)
@@ -45,7 +52,7 @@ WeTunes is a platform for group music discovery. Having a dinner party with your
 
 #### Step 6: Playlists for All!
 - Once the clusters are created, the top 5 artists from each cluster are taken as 'playlist seeds'
-- the groups of playlists seeds are then ranked by average user preference for those 5 artists
+- The groups of playlists seeds are then ranked by average user preference for those 5 artists using Least Misery once again
 - WeTunes queries the Echonest API to create playlists based on the seed artists for each group of playlist seeds
 - WeTunes receives back a list of songs for each playlist, and creates the playlist in Spotify through the Spotify API
 - WeTunes then renders the Spotify playlists on its site for the group to listen to and enjoy!
