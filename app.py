@@ -15,23 +15,6 @@ import re
 import msd_sql_functions as msd
 
 
-
-# ''' setting RAM limit to test for migration '''
-# import resource
-
-# rsrc = resource.RLIMIT_DATA
-# soft, hard = resource.getrlimit(rsrc)
-# print 'Soft limit starts as  :', soft
-# print 'Hard limit starts as: ', hard
-
-# resource.setrlimit(rsrc, (1, 1)) #limit to one kilobyte
-
-# soft, hard = resource.getrlimit(rsrc)
-# print 'Soft limit changed to :', soft
-# print 'Hard limit changed to :', hard
-
-# ''' end of testing code '''
-
 app = Flask(__name__)
 
 # load model and create SpotifyFunctions instance to call later
@@ -40,9 +23,6 @@ model = gl.load_model('artist_sim_model_triplets') # have in final
 m = msd.MSD_Queries()
 username_list = [i[0] for i in m.gen_query('DISTINCT "user"', 'stored_listen_data')] # getting all usernames in database for generate random username buttons
 # df_preload = pd.read_csv('liza_ben_df.csv')[['user','artist_id','play_count']] # remove from final
-
-
-
 
 
 
@@ -62,32 +42,6 @@ def group_login_signin():
     display_name = request.values['display_name']
     user_id = request.values['user_id']
     data = [access_token, refresh_token, user_id, display_name]
-    # ipdb.set_trace()
-
-    # ''' Step 1: Getting private data from logged in user '''
-    # priv_check = False
-    # priv_check_count = 0
-    # if 'access_token' in request.form:
-    #     access_token = request.form['access_token']
-    #     priv_check_count += 1
-    # if 'refresh_token' in request.form:
-    #     refresh_token = request.form['refresh_token']
-    #     priv_check_count += 1
-    # if 'user_id' in request.form:
-    #     prim_user_id = request.form['user_id']
-    #     prim_user_id = prim_user_id.encode('ascii', 'ignore')
-    #     priv_check_count += 1
-    # # if 'display_name' in request.form:
-    # #     display_name = request.form['display_name']
-    # #     priv_check += 1
-    # if priv_check_count > 2: # removing display name for now, would be > 3 with display name
-    #     priv_check = True
-
-    # if priv_check:
-    prim_user_id = user_id
-    prim_user_id = prim_user_id.encode('ascii', 'ignore')
-    spriv = spotify_functions.SpotifyFunctionsPrivate(access_token = access_token, refresh_token = refresh_token, user_id = prim_user_id)
-    df_pipeline_private = spriv.fit()
 
     return render_template('/group_login_signin.html', data = data)
 
@@ -165,14 +119,12 @@ def playlists():
     # pl_playlist_ids = ['3HoRrJNYuDkhATqm4NEZSW','0jXqizs7Z0sWWVaJaqyP2r'] # remove in final
 
     ''' Step 3. Creating Playlists '''
+
     all_data = []
     playlist_ids = []
     user_ids = list(playlist_seed_scores.columns - ['cluster','cluster_score'])
-    print 'user ids ascii ', user_ids
-    #user_ids = [i.decode('utf-8') for i in user_ids]
-    print 'user ids utf-8 ', user_ids
+
     playlist_names = playlist_names[:n_playlists]
-    print 'playlist_names: ', playlist_names
     #embed_base = "https://embed.spotify.com/?uri=https://play.spotify.com/user/1248440864/playlist/" # for playlists
     embed_base = "https://embed.spotify.com/?uri=spotify:trackset:" # for list of tracks
     for idx, playlist in enumerate(playlist_spotify_id_list[:n_playlists]):
@@ -206,20 +158,10 @@ def playlists():
 
     
     playlist_html = [embed_base + str(i) for i in playlist_ids]
-    for i in all_data:
-        print i
-        print type(i)
     end = time.time()
-    print 'total time through playlists: ', end - start
-    print 'user_ids ', user_ids
-    print 'playlist_html ', playlist_html
-   # print 'playlist_ids ', playlist_ids
 
     # data = playlist_html
     data = all_data
-    for i in data:
-        print i
-        print type(i)
     end = time.time()
     print 'total time through playlists: ', end - start
     return render_template('/playlists.html', data = data)

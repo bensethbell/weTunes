@@ -1,8 +1,6 @@
-#from sklearn.cluster import KMeans
 from sklearn.cluster import KMeans, AffinityPropagation
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 import msd_sql_functions as msd
-#import spotify_functions as spotify_functions
 import spotify_functions_mult131114 as spotify_functions
 import numpy as np
 import pandas as pd
@@ -16,10 +14,6 @@ import time
 import graphlab as gl
 import ipdb
 
-'''
-This differs from pipeline_full_111214 in that it is removing SpotifyFunctions from the pipeline and placing it outside
-so tokens need not be called every time
-'''
 
 class CheckModel:
     '''
@@ -172,8 +166,8 @@ class GroupRecommender:
 
     def get_all_user_listens(self, user_ids):
         '''
-        Input: list of userids
-        Output: df of concatenated user listen data
+        INPUT: list of userids
+        OUTPUT: df of concatenated user listen data
         '''
         # getting user listen data
         user_listens = np.array(self.m.get_user_listendata(user_ids))
@@ -209,8 +203,6 @@ class GroupRecommender:
             user_sf = all_recs_sf[all_recs_sf[user_col_lm] == user]
             user_items = user_sf[item_col_lm].unique()
             top_items = top_items + list(user_items[:top_n_users])
-            # make sure this is getting the top artists
-            # maybe sort it?
 
         # remove duplicates
         top_items = list(set(top_items))
@@ -221,13 +213,6 @@ class GroupRecommender:
 
         tot_recs_df_lm = tot_recs_df[tot_recs_df[item_col_lm].isin(top_items)]
         self.tot_recs_df_lm = tot_recs_df_lm #remove
-
-        # creating "score" proxy from rank by dividing all ranks by max rank in least misery and subtracting from 1
-        # later should use score and just normalize
-        ''' moving later so max score is of top items only '''
-        # max_rank = tot_recs_df_lm[score_col].max()
-        # self.max_rank = max_rank #remove
-        # tot_recs_df_lm[score_col] = tot_recs_df_lm[score_col].apply(lambda x: 1 - ((1.0*x)/max_rank))
 
         # getting scores for each user
         tot_recs_lm_pivot = tot_recs_df_lm.pivot(item_col_lm, user_col_lm, score_col)
@@ -253,131 +238,6 @@ class GroupRecommender:
         return top_items_leastmisery, sorted_top_item_scores, df_least_misery, tot_recs_lm_pivot
 
         
-
-
-
-
-
-        ''' end of new code'''
-        ''' below is code for rank scoring '''
-        # users_least_misery_list = [] # making list for each user for whole least misery list
-        # # filling users_least_misery_list
-
-        # # for users in users:
-        # #     user_least_misery_sf = all_recs_sf[all_recs_sf[user_col_lm]]
-
-        # # go through each artist in top artists, get least misery score
-        # for item in top_items:
-        #     ''' IMPORTANT! change to min if using score instead of rank '''
-        #     least_misery_score = all_recs_sf[all_recs_sf[item_col_lm] == item][score_col].max()
-        #     top_item_scores.append(least_misery_score)
-
-
-        # # get top artists based on least misery score
-        # ''' IMPORTANT! change to max if using score instead of rank '''
-        # idx = np.argsort(top_item_scores)[:top_n_cluster]
-        # sorted_top_item_scores = np.array(top_item_scores)[idx]
-        # top_items_leastmisery = np.array(top_items)[idx]
-        # self.top_items_leastmisery = top_items_leastmisery
-        # self.sorted_top_item_scores = sorted_top_item_scores
-        # df = pd.DataFrame(np.hstack((np.array(top_items_leastmisery).reshape(-1,1),
-        #     np.array(sorted_top_item_scores).reshape(-1,1))))
-        # df.columns = [item_col_lm, score_col]
-        # return top_items_leastmisery, sorted_top_item_scores, df
-
-
-# class ArtistTermCluster:
-#     '''
-#     INPUT: list of artist_ids
-#     OUTPUT: cluster labels for each artist
-#     '''
-#     def __init__(self):
-#         self.m = msd.MSD_Queries()
-#         self.labels = None
-#         self.artist_ids = None
-#         self.n_clusters = None
-
-#     def fit(self, artist_ids, n_clusters = 8):
-#         term_docs = self.get_terms(artist_ids)
-#         labels = self.vectorize(term_docs)
-#         return labels
-
-#     def get_terms(self, artist_ids):
-#         '''
-#         INPUT: list of artist_ids
-#         OUTPUT: dataframe with artist_ids and get_terms
-#         '''
-#         self.artist_ids = artist_ids
-#         if type(artist_ids) != list:
-#             artist_ids = [artist_ids]
-#         term_docs = []
-#         for artist_id in artist_ids:
-#             terms = self.m.gen_query(select_columns = '*', table = 'artist_term', 
-#                 filter_column = 'artist_id', filter_values = artist_id)
-#             #print terms
-#             if len(terms) > 0:
-#                 terms_arr = np.array(terms)[:,1]
-#                 terms_list = [i.replace(' ', '_') for i in terms_arr]
-#                 doc = ' '.join(terms_list)
-#                 term_docs.append(doc)
-#             else:
-#                 term_docs.append('no_terms')
-#         return term_docs
-
-
-#     def vectorize(self, term_docs, n_clusters = 8):
-#         self.n_clusters = n_clusters
-#         tf = TfidfVectorizer()
-#         X = tf.fit_transform(term_docs)
-#         km = KMeans(n_clusters = n_clusters)
-#         x = km.fit_transform(X)
-#         self.labels = km.labels_
-#         return km.labels_
-
-#     def create_clusters(self, labels, artist_ids, least_misery_ranked_df, item_col = 'artist_id', score_col = 'rank',
-#         cluster_col = 'cluster', df_cols = ['artist_id', 'artist_name', 'cluster']):
-#         '''
-#         INPUT: 
-#         - list of artist_ids to cluster
-#         - recommendation df with scores for each artist
-#         - 
-#         '''
-#         artist_names = np.array(self.m.get_artist_names(artist_ids))
-#         labels = np.array(labels).reshape(-1,1)
-#         artist_ids = np.array(artist_ids).reshape(-1,1)
-#         combo = np.hstack((artist_names, labels))
-#         df = pd.DataFrame(combo)
-#         df.columns = df_cols
-#         df = df.merge(least_misery_ranked_df, how = 'inner', on = item_col)
-#         df[[cluster_col, score_col]] = df[[cluster_col, score_col]].astype(float)
-#         df = df.sort([cluster_col, score_col])
-#         return df
-
-#     def get_playlist_seeds(self, df_clusters, cluster_col = 'cluster'):
-#         '''
-#         INPUT: df with clusters, artists in each cluster, and the least misery ranking of each artist
-#         OUTPUT: np array with row = rank of cluster, top 5 artist ids per cluster
-#         '''
-#         cluster_dict = {}
-#         for cluster in df_clusters[cluster_col].unique():
-#             top_cluster_df = df_clusters[df_clusters[cluster_col] == cluster].head(5)
-#             cluster_dict[cluster] = {}
-#             cluster_dict[cluster]['avg_rank'] = np.mean(top_cluster_df['rank'])
-#             cluster_dict[cluster]['artist_ids'] = np.array(top_cluster_df['artist_id'])
-#             cluster_dict[cluster]['artist_names'] = np.array(top_cluster_df['artist_name'])
-#             cluster_dict[cluster]['artist_ranks'] = np.array(top_cluster_df['rank'])
-#             # might want to add in getting artist terms here
-
-#         ''' below: this is super hacky, improve later? '''
-#         df_cluster_rank = pd.DataFrame(pd.DataFrame(cluster_dict).T['avg_rank'].astype(float)).sort('avg_rank').reset_index().reset_index()
-#         df_cluster_rank.columns = ['cluster_rank', 'cluster', 'avg_rank']
-
-#         cluster_order = df_cluster_rank['cluster'].values
-#         playlist_seeds = []
-#         for cluster in cluster_order:
-#             playlist_seeds.append(list(cluster_dict[cluster]['artist_ids']))
-#         return playlist_seeds, df_cluster_rank, cluster_dict
-
 class ArtistClusterAF:
     def __init__(self):
         self.m = msd.MSD_Queries()
@@ -427,8 +287,6 @@ class ArtistClusterAF:
 
         return playlist_seed_df, playlist_seeds, playlist_seed_names, playlist_seed_scores
 
-        pass
-
     def get_terms(self, artist_ids):
         '''
         INPUT: list of artist_ids
@@ -439,8 +297,6 @@ class ArtistClusterAF:
             artist_ids = [artist_ids]
         term_docs = []
 
-        ''' sql queries don't return in the same order they were sent !!!!'''
-        # slower more accurate version
         terms_all = self.m.gen_query(select_columns = 'artist_id, term', table = 'cluster_artist_nontriplets', 
             filter_column = 'artist_id', filter_values = artist_ids)
         start = time.time()
@@ -453,12 +309,12 @@ class ArtistClusterAF:
         df_terms = pd.DataFrame(terms_all)
         df_terms.columns = ['artist_id', 'term']
         self.df_terms = df_terms
-        #getting unique artists left, kinda hacky - change later
+        #getting unique artists left
         artists_with_terms_df = df_terms[['artist_id']].groupby('artist_id').sum().reset_index()
         self.artists_with_terms_df = artists_with_terms_df
 
 
-        # just making sure in the same order as df_least_misery
+        # ensuring in the same order as df_least_misery
         df_ordering = self.df_least_misery.merge(df_terms, on = 'artist_id')
         df_terms = df_ordering[['artist_id', 'term']]
         
@@ -468,8 +324,7 @@ class ArtistClusterAF:
         final = time.time()
         print 'artist term vectors created in: ', final - end
 
-        # may have to get unique values here if not all artist ids guaranteed in databse
-        # term_docs = df_terms.groupby('artist_id')['term'].agg(' '.join).values
+        # may have to get unique values here if not all artist ids guaranteed in database
         
         return term_docs, artists_with_terms_df
 
@@ -533,6 +388,7 @@ class ArtistClusterAF:
         psd_group = psd_group[psd_group.columns - [self.name_col, self.item_col, self.score_col]]
         # setting cluster to index so np.mean will work on all columns but cluster
         psd_group = psd_group.set_index('cluster')
+        ipdb.set_trace()
         psd_group['cluster_score'] = np.min(psd_group, axis = 1) # least misery ranking
         #psd_group['cluster_score'] = np.mean(psd_group, axis = 1) # average happiness ranking
         # resetting index and then grouping 
@@ -541,31 +397,27 @@ class ArtistClusterAF:
         self.psd1 = psd_group
         psd_group_count = psd_group.count()[['cluster_score']]
         print 'psd_group count: ', psd_group_count
-        # ipdb.set_trace()
+ 
         psd_group_count.columns = ['count']
         # getting mean of all other columns and adding count
-        print 'psd_group count: ', psd_group_count
-        self.psd2 = psd_group
-        print 'psd_group before: ', psd_group
+
         psd_group = pd.merge(psd_group.mean(), psd_group_count, left_index = True, right_index = True)
-        print 'psd_group after: ', psd_group
+
         
         # creating boolean mask for penalization and penalizing
         psd_group['count'] = psd_group['count'].apply(lambda x: x < penalize_less_than)
-        print 'psd_group2', psd_group
+  
         psd_group['cluster_score'] = psd_group['cluster_score'] - penalization*psd_group['count']
         # removing count column
-        print 'psd_group3', psd_group
-        self.psd3 = psd_group
+   
         psd_group = psd_group.drop('count', axis = 1)
-        print 'psd_group4', psd_group
-        self.psd4 = psd_group
+
         psd_group = psd_group.sort('cluster_score', ascending = False).reset_index()
         print playlist_seed_df
-        print 'psd_group5', psd_group
-        self.psd5 = psd_group
+
         self.playlist_seed_df = playlist_seed_df
         self.psd_group = psd_group
+        print 'psd group', psd_group
 
         # adding cluster score to playlist_seed_df
         playlist_seed_df = playlist_seed_df.merge(psd_group[['cluster', 'cluster_score']], on = 'cluster')
