@@ -185,42 +185,6 @@ class SpotifyFunctionsPrivate:
 
     def get_playlist_artist_data(self):
 
-    '''
-    def get_playlist_data(self, user_id):
-      
-        INPUT: all playlists
-        OUTPUT: df with artist id, name, and count
-      
-
-        artist_data = []
-        for playlist_data in self.user_playlist_objects:
-            # playlist_id = playlist_dic['id']
-            # owner = playlist_dic['owner']['id']
-            # playlist_data = self.s.user_playlist(owner, playlist_id)
-
-            for idx, item in enumerate(playlist_data['tracks']['items']):
-                dic = {}
-                try:
-                    dic['artist_name'] = item['track']['artists'][0]['name']
-                    dic['artist_id_spotify']= item['track']['artists'][0]['id']
-                    artist_data.append(dic)
-                except:
-                    print 'error in getting artist data for user %s, item %d' % (user_id, idx)
- 
-        print 'len artist_data ', len(artist_data)
-        if len(artist_data) > 0 :
-            df_artist_data = pd.DataFrame(artist_data)
-            df_artist_data['count'] = 1
-            print 'artist data user df:'
-            print df_artist_data
-
-        else:
-            columns = ['artist_id_spotify', 'artist_name', 'count']
-            df_artist_data = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
-
-        df_artist_data = df_artist_data.groupby('artist_id_spotify').agg({'artist_name': min, 'count': np.sum}).reset_index()
-
-        '''
         artist_data = []
         for playlist_data in self.user_playlist_objects:
             for item in playlist_data['tracks']['items']:
@@ -235,88 +199,7 @@ class SpotifyFunctionsPrivate:
         self.playlist_artist_data = artist_data
         return artist_data
 
-        
-    '''
-    def get_playlist_data(self, user_id):
-      
-        INPUT: all playlists
-        OUTPUT: df with artist id, name, and count
-      
-
-        artist_data = []
-        for playlist_data in self.user_playlist_objects:
-            # playlist_id = playlist_dic['id']
-            # owner = playlist_dic['owner']['id']
-            # playlist_data = self.s.user_playlist(owner, playlist_id)
-
-            for idx, item in enumerate(playlist_data['tracks']['items']):
-                dic = {}
-                try:
-                    dic['artist_name'] = item['track']['artists'][0]['name']
-                    dic['artist_id_spotify']= item['track']['artists'][0]['id']
-                    artist_data.append(dic)
-                except:
-                    print 'error in getting artist data for user %s, item %d' % (user_id, idx)
- 
-        print 'len artist_data ', len(artist_data)
-        if len(artist_data) > 0 :
-            df_artist_data = pd.DataFrame(artist_data)
-            df_artist_data['count'] = 1
-            print 'artist data user df:'
-            print df_artist_data
-
-        else:
-            columns = ['artist_id_spotify', 'artist_name', 'count']
-            df_artist_data = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
-
-        df_artist_data = df_artist_data.groupby('artist_id_spotify').agg({'artist_name': min, 'count': np.sum}).reset_index()
-
-        # creating artist name column that will sync w sql database
-        df_artist_data['artist_name_sql'] = df_artist_data['artist_name'].apply(lambda x: 
-            x.encode('ascii','ignore').replace("'",'"'))
-
-        artist_ids = list(df_artist_data['artist_id_spotify'].values)
-        artist_names = list(df_artist_data['artist_name_sql'].values)
-        print 'artist ids:', artist_ids
-        print 'artist names: ', artist_names
-
-        # getting echonest ids for each artist name from sql database
-        if len(artist_names) > 0:
-            df_echonest_ids = self.get_echonest_ids_by_artistname(artist_names)
-
-        # joining echonest ids to artist data dataframe
-            df_artist_data_echonest = df_echonest_ids.merge(df_artist_data, how = 'left', on = 'artist_name')
-
-            # making sure no multiples coming of move
-            if len(df_artist_data_echonest) != len(df_echonest_ids):
-                print 'Warning! Merging caused duplication' #could aggregate by name and take max count but leave like this for now
-
-        else:
-            # make empty df
-            print 'no artist data'
-            columns = ['artist_id','count']
-            df_artist_data_echonest = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
-
-  
-        For artist names not found in database:
-        1. find artists not found in initial database search
-        2. query echonest api for ids
-        3. check ids against ids in database and remove all not in database
- 
-        # get all artists not found in database
-
-        self.artist_data_echonest = df_artist_data_echonest
-
-        # converting into format for pipeline
-        df_pipeline = df_artist_data_echonest[['artist_id', 'count']]
-        df_pipeline['user'] = user_id
-        df_pipeline = df_pipeline[['user','artist_id','count']]
-        df_pipeline.columns = ['user','artist_id','play_count']
-        df_pipeline = df_pipeline.dropna() # if no artist data make sure to drop
-        self.df_pipeline = df_pipeline
-
-        return df_pipeline, df_artist_data_echonest
-    '''
+   
     def create_df_pipeline_from_artist_data(self, artist_data):
         '''
         INPUT: list of dictionaries for each artist containing 'artist_name' and 'artist_id_spotify' keys
@@ -324,42 +207,6 @@ class SpotifyFunctionsPrivate:
         '''
 
 
-    '''
-    def get_playlist_data(self, user_id):
-      
-        INPUT: all playlists
-        OUTPUT: df with artist id, name, and count
-      
-
-        artist_data = []
-        for playlist_data in self.user_playlist_objects:
-            # playlist_id = playlist_dic['id']
-            # owner = playlist_dic['owner']['id']
-            # playlist_data = self.s.user_playlist(owner, playlist_id)
-
-            for idx, item in enumerate(playlist_data['tracks']['items']):
-                dic = {}
-                try:
-                    dic['artist_name'] = item['track']['artists'][0]['name']
-                    dic['artist_id_spotify']= item['track']['artists'][0]['id']
-                    artist_data.append(dic)
-                except:
-                    print 'error in getting artist data for user %s, item %d' % (user_id, idx)
- 
-        print 'len artist_data ', len(artist_data)
-        if len(artist_data) > 0 :
-            df_artist_data = pd.DataFrame(artist_data)
-            df_artist_data['count'] = 1
-            print 'artist data user df:'
-            print df_artist_data
-
-        else:
-            columns = ['artist_id_spotify', 'artist_name', 'count']
-            df_artist_data = pd.DataFrame(data=np.zeros((0,len(columns))), columns=columns)
-
-        df_artist_data = df_artist_data.groupby('artist_id_spotify').agg({'artist_name': min, 'count': np.sum}).reset_index()
-
-        '''
         user_id = self.user_id
         if len(artist_data) > 0 :
             df_artist_data = pd.DataFrame(artist_data)
