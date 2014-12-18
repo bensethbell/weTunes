@@ -403,7 +403,7 @@ class ArtistClusterAF:
 
         ''' new code '''
         psd_group_mean = psd_group.mean()
-        psd_group_mean = psd_group_mean.drop('cluster_score')
+        psd_group_mean = psd_group_mean.drop('cluster_score', axis = 1)
         psd_group_mean['cluster_score'] = np.min(psd_group_mean, axis = 1) 
         psd_group = pd.merge(psd_group_mean, psd_group_count, left_index = True, right_index = True)
         ''' end ''' 
@@ -415,7 +415,6 @@ class ArtistClusterAF:
   
         ipdb.set_trace()
         #adding this to get actual min instead of average of min for each artist, will take min of count but shouldn't be a problem since count >= 1
-        psd_group['cluster_score'] = np.min(psd_group, axis = 1)
 
         psd_group['cluster_score'] = psd_group['cluster_score'] - penalization*psd_group['count']
         # removing count column
