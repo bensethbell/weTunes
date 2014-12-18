@@ -372,16 +372,9 @@ class ArtistClusterAF:
         for i in np.unique(self.labels):
             top_cluster = df_least_misery_clustered[df_least_misery_clustered['cluster'] == i].head(5)
             playlist_seed_df_list.append(top_cluster)
-            # rankmean = top_cluster[self.score_col].mean()
-            # # trying to remove clusters with < 4 artists from top
-            # if len(top_cluster) < penalize_less_than:
-            #     rankmean -= penalization
-            # top_cluster['avg_rank_score'] = rankmean
-            # avg_rank.append(rankmean)
-            # playlist_seed_df_list.append(top_cluster)
 
 
-        ''' the goal of the next chunk of code is to get ranking for each cluster, penalizing for the number of artists in the cluster '''
+        ''' get ranking for each cluster, penalizing for the number of artists in the cluster '''
         playlist_seed_df = pd.concat(list(playlist_seed_df_list))
         # creating cluster grouping with ranking by the cluster
         psd_group = playlist_seed_df.copy()
@@ -399,17 +392,16 @@ class ArtistClusterAF:
         print 'psd_group count: ', psd_group_count
  
         psd_group_count.columns = ['count']
-        # getting mean of all other columns and adding count
+        
 
-        ''' new code '''
+        # getting mean of all columns, setting cluster score to min
         psd_group_mean = psd_group.mean()
         psd_group_mean = psd_group_mean.drop('cluster_score', axis = 1)
         psd_group_mean['cluster_score'] = np.min(psd_group_mean, axis = 1) 
-        psd_group = pd.merge(psd_group_mean, psd_group_count, left_index = True, right_index = True)
-        ''' end ''' 
-        #psd_group = pd.merge(psd_group.mean(), psd_group_count, left_index = True, right_index = True)
 
-        
+        # getting mean of all other columns and adding count
+        psd_group = pd.merge(psd_group_mean, psd_group_count, left_index = True, right_index = True)
+     
         # creating boolean mask for penalization and penalizing
         psd_group['count'] = psd_group['count'].apply(lambda x: x < penalize_less_than)
   
@@ -441,17 +433,6 @@ class ArtistClusterAF:
             artist_names = list(playlist_seed_df[playlist_seed_df['cluster'] == i][self.name_col].values)
             playlist_seeds.append(artist_ids)
             playlist_seed_names.append(', '.join(artist_names))
-
-
-
-
-        # # put together playlist seed df
-        # idx = np.argsort(np.array(avg_rank))[::-1] # reversing to have largest scores first
-        # playlist_seed_df_list = np.array(playlist_seed_df_list)[idx]
-
-        # playlist_seeds = [i[self.item_col].values for i in playlist_seed_df_list]
-        # playlist_seed_names = [', '.join(list(i[self.name_col].values)) for i in playlist_seed_df_list]
-        # playlist_seed_df = pd.concat(list(playlist_seed_df_list))
 
         return playlist_seed_df, playlist_seeds, playlist_seed_names, psd_group
 
@@ -522,9 +503,6 @@ class PlaylistRecommender:
             self.playlist_spotify_id_list.append(playlist_spotify_track_ids)
             self.playlist_names.append(self.get_playlist_terms(artist_id_list))
 
-    def fit_transform(self, artist_ids):
-        pass
-
     def print_playlists(self):
         for idx, playlist in enumerate(self.playlist_list):
             print 'Playlist %s:' % str(idx)
@@ -562,13 +540,6 @@ class PlaylistRecommender:
             result = 'wetunes'
         
         return result
-
-    def get_mult_playlist_terms(self, artist_ids_lists):
-        pass
-
-
-
-
 
 class Pipeline:
     '''
@@ -626,8 +597,6 @@ class Pipeline:
             item_col = self.item_col, listen_col = self.listen_col)
         tot_recs = gr.create_user_rec_from_df(self.df_pipeline)
 
-        
-
         tot_recs_df = tot_recs.to_dataframe()
         self.tot_recs_df = tot_recs_df # should remove
         least_misery_list, top_item_scores, df_least_misery, df_lm_allusers = gr.least_misery_list(tot_recs_df.copy())
@@ -637,36 +606,11 @@ class Pipeline:
         self.score_col = gr.score_col #should be rank
         return least_misery_list
 
-        '''
-        # getting all user scores for each item in df least misery
-        tot_recs_df_lm = tot_recs_df[tot_recs_df[self.item_col].isin(least_misery_list)]
-
-            # creating "score" proxy from rank by dividing all ranks by max rank in least misery and subtracting from 1
-            # later should use score and just normalize
-        max_rank = tot_recs_df_lm[self.score_col].max()
-        tot_recs_df_lm[self.score_col] = tot_recs_df_lm[self.score_col].apply(lambda x: 1 - ((1.0*x)/max_rank))
-        tot_recs_lm_pivot = tot_recs_df_lm.pivot(self.item_col, self.user_col, self.score_col)
-        self.tot_recs_lm_pivot = tot_recs_lm_pivot
-
-
-        # lm_recs_df = tot_recs[[self.item_col].isin(list(least_misery_list))]
-        # lm_recs_df = lm_recs_df.pivot
-        return least_misery_list
-        '''
-
-
     def cluster(self):
         '''
         Creates artist clusters from artists that cause least misery, ranks the clusters by top 5 artists,
         and passes those top 5 artists to be playlist seeds
         '''
-        #import artist_term_clustering as a #causes graphlab to crash because KMeans is imported
-        # atc = ArtistTermCluster()
-        # labels = atc.fit(list(least_misery_list))
-        # df_clusters = atc.create_clusters(labels, least_misery_list, self.df_least_misery)
-        # playlist_seeds, df_cluster_rank, cluster_dict = atc.get_playlist_seeds(df_clusters)
-        # self.playlist_seeds = playlist_seeds
-        # self.df_cluster_rank = df_cluster_rank
 
         ac = ArtistClusterAF()
         self.ac = ac
@@ -685,58 +629,8 @@ class Pipeline:
         self.playlist_names = pr.playlist_names
 
 
-
-
 if __name__ == '__main__':
-
-    start = time.time()
-    # my_id = '1248440864'
-    # liza_id = '1299323226'
-    # userlist = [my_id, liza_id]
-    df_pipeline = pd.read_csv('liza_ben_df.csv')[['user','artist_id','play_count']]
-    s = spotify_functions.SpotifyFunctionsPublic()
-    #df_pipeline = s.fit(userlist)
-    model = gl.load_model('artist_sim_model_triplets')
-    pl = Pipeline(model, model_cols = ['user','artist_id','play_count'], 
-        user_col = 'user', item_col = 'artist_id', listen_col = 'play_count')
-    pl.fit(df_pipeline)
-    end = time.time()
-    print pl.playlist_spotify_id_list
-    print 'total time: ', end - start
-
-
-    # user0 = '000c2074db9bed50913055c8cbe847709b6d3235'
-    # user1 = '0015abb5e0ed5d63f20dffe7a350d00fee1e9977'
-    # user2 = '00127be0d0a5f735e43ea80a9d172116e20ab886'
-    # userlist = [user0, user1, user2]
-    # start = time.time()
-    # my_id = '1248440864'
-    # liza_id = '1299323226'
-    # userlist = [my_id, liza_id]
-    # gr = GroupRecommender()
-    # gr.load_model('artist_sim_model_triplets', model_cols = ['user','artist_id','play_count'], 
-    #     user_col = 'user', item_col = 'artist_id', listen_col = 'play_count')
-    # model_load = time.time()
-    # print 'Model Loaded! In: ', model_load - start
-    # # tot_recs = gr.create_user_rec_sf(userlist)
-    # tot_recs = gr.create_user_rec_spotify(userlist)
-    # tot_recs_df = tot_recs.to_dataframe()
-    # ind_recs = time.time()
-    # print 'Individual Recs Made! In: ', ind_recs - model_load
-    # least_misery_list2, top_item_scores, df_least_misery = gr.least_misery_list(tot_recs_df)
-    # import artist_term_clustering as a #causes graphlab to crash because KMeans is imported
-    # atc2 = a.ArtistTermCluster()
-    # labels = atc2.fit(list(least_misery_list2))
-    # df_clusters = atc2.create_clusters(labels, least_misery_list2, df_least_misery)
-    # playlist_seeds, df_cluster_rank, cluster_dict = atc2.get_playlist_seeds(df_clusters)
-    # print df_clusters
-    # print playlist_seeds
-    # pr = PlaylistRecommender()
-    # pr.fit_multiple(playlist_seeds)
-    # pr.print_playlists()
-    # end = time.time()
-    # print 'Total Time to Completion: ', end - start
-
+    pass
 
 
 
