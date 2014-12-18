@@ -401,7 +401,13 @@ class ArtistClusterAF:
         psd_group_count.columns = ['count']
         # getting mean of all other columns and adding count
 
-        psd_group = pd.merge(psd_group.mean(), psd_group_count, left_index = True, right_index = True)
+        ''' new code '''
+        psd_group_mean = psd_group.mean()
+        psd_group_mean = psd_group_mean.drop('cluster_score')
+        psd_group_mean['cluster_score'] = np.min(psd_group_mean, axis = 1) 
+        psd_group = pd.merge(psd_group_mean, psd_group_count, left_index = True, right_index = True)
+        ''' end ''' 
+        #psd_group = pd.merge(psd_group.mean(), psd_group_count, left_index = True, right_index = True)
 
         
         # creating boolean mask for penalization and penalizing
