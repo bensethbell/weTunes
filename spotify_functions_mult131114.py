@@ -403,6 +403,8 @@ class SpotifyFunctionsPublic:
         user_saved_tracks = []
         user_saved_tracks_init = self.s.current_user_saved_tracks(limit = lim, offset = 0)
         total_tracks = user_saved_tracks_init['total']
+        if total_tracks > 1000:
+            total_tracks = 1000
 
         x = 0 # initializing offset
 
@@ -415,7 +417,7 @@ class SpotifyFunctionsPublic:
         self.user_saved_tracks = user_saved_tracks
 
 
-    def get_user_public_playlists(self, user_id, lim = 5): #50):
+    def get_user_public_playlists(self, user_id, lim = 50):
         '''
         INPUT: user_id
         OUTPUT: list of users public playlists
@@ -424,8 +426,8 @@ class SpotifyFunctionsPublic:
         user_playlist_objects = []
         user_playlists_init = self.s.user_playlists(user_id, limit = lim)
         total_playlists = user_playlists_init['total']
-        if total_playlists > 4:
-            total_playlists = 4
+        if total_playlists > 100:
+            total_playlists = 100
 
         x = 0 # initializing offset
 
