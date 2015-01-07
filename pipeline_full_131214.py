@@ -431,9 +431,11 @@ class ArtistClusterAF:
                 maxval = np.max(np.max(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']][:10]))
                 self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] = (.85*(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] - minval)/(maxval - minval))+.1
                 psd_group = self.psd_group
+                print 'scaled psd group', self.psd_group
 
         except:
             pass
+
 
 
         # adding cluster score to playlist_seed_df
