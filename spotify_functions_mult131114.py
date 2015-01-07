@@ -424,6 +424,8 @@ class SpotifyFunctionsPublic:
         user_playlist_objects = []
         user_playlists_init = self.s.user_playlists(user_id, limit = lim)
         total_playlists = user_playlists_init['total']
+        if total_playlists > 3:
+            total_playlists = 3
 
         x = 0 # initializing offset
 
