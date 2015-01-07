@@ -423,7 +423,15 @@ class ArtistClusterAF:
         self.playlist_seed_df = playlist_seed_df
         self.psd_group = psd_group
         print 'psd group', psd_group
-        ipdb.set_trace()
+
+        # NEW CODE - scaling scores for top clusters to spread them out
+        try: 
+            if len(self.psd_group) > 12:
+                minval = np.min(np.min(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']][:10]))
+                maxval = np.max(np.max(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']][:10]))
+                self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] = (.85*(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] - minval)/(maxval - minval))+.1
+                psd_group = self.psd_group
+
 
         # adding cluster score to playlist_seed_df
         playlist_seed_df = playlist_seed_df.merge(psd_group[['cluster', 'cluster_score']], on = 'cluster')
