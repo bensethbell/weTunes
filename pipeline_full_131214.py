@@ -425,6 +425,7 @@ class ArtistClusterAF:
         print 'psd group', psd_group
 
         # NEW CODE - scaling scores for top clusters to spread them out
+        self.psd_group = self.psd_group[:10]
         try: 
             if len(self.psd_group) > 12:
                 minval = np.min(np.min(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']][:10]))
