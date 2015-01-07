@@ -429,7 +429,7 @@ class ArtistClusterAF:
             if len(self.psd_group) > 12:
                 minval = np.min(np.min(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']][:10]))
                 maxval = np.max(np.max(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']][:10]))
-                self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] = (.85*(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] - minval)/(maxval - minval))+.1
+                self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] = (.7*(self.psd_group[self.psd_group.columns - ['cluster_score','cluster']] - minval)/(maxval - minval))+.25
                 psd_group = self.psd_group
                 print 'scaled psd group', self.psd_group
 
