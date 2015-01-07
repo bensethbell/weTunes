@@ -423,6 +423,7 @@ class ArtistClusterAF:
         self.playlist_seed_df = playlist_seed_df
         self.psd_group = psd_group
         print 'psd group', psd_group
+        ipdb.set_trace()
 
         # adding cluster score to playlist_seed_df
         playlist_seed_df = playlist_seed_df.merge(psd_group[['cluster', 'cluster_score']], on = 'cluster')
