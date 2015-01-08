@@ -432,21 +432,24 @@ class SpotifyFunctionsPublic:
         x = 0 # initializing offset
 
         while x < total_playlists:
-            user_playlists_tmp = self.s.user_playlists(user_id, limit = lim, offset = x)
-            for item in user_playlists_tmp['items']:
-                user_playlists.append(item)
-                playlist_id = item['id']
-                print 'playlist_id', playlist_id
-                owner = item['owner']['id']
-                print 'playlist owner', owner
-                if (playlist_id != None) and (owner != None):
-                    try:
-                        playlist_data = self.s.user_playlist(owner, playlist_id)
-                        user_playlist_objects.append(playlist_data)
-                    except:
-                        print 'error in adding playlist'
-                else:
-                    print 'error in adding playlist: owner or playlist_id does not exist'
+            try: # new code
+                user_playlists_tmp = self.s.user_playlists(user_id, limit = lim, offset = x)
+                for item in user_playlists_tmp['items']:
+                    user_playlists.append(item)
+                    playlist_id = item['id']
+                    print 'playlist_id', playlist_id
+                    owner = item['owner']['id']
+                    print 'playlist owner', owner
+                    if (playlist_id != None) and (owner != None):
+                        try:
+                            playlist_data = self.s.user_playlist(owner, playlist_id)
+                            user_playlist_objects.append(playlist_data)
+                        except:
+                            print 'error in adding playlist'
+                    else:
+                        print 'error in adding playlist: owner or playlist_id does not exist'
+            except: # new code 
+                print 'error in querying API'
 
             x += lim
 
