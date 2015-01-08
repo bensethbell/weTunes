@@ -243,11 +243,11 @@ class SpotifyFunctionsPrivate:
         # making sure no multiples coming of move
         if len(df_artist_data_echonest) != len(df_echonest_ids):
             print 'Warning! Merging caused duplication' #could aggregate by name and take max count but leave like this for now
-            print 'old num: ', len(df_echonest_ids)
-            print 'new num: ', len(df_artist_data_echonest)
-            print 'fixing ...'
-            df_artist_data_echonest = df_artist_data_echonest.drop_duplicates()
-            print 'revised num', len(df_artist_data_echonest)
+            # print 'old num: ', len(df_echonest_ids)
+            # print 'new num: ', len(df_artist_data_echonest)
+            # print 'fixing ...'
+            # df_artist_data_echonest = df_artist_data_echonest.drop_duplicates()
+            # print 'revised num', len(df_artist_data_echonest)
         '''
         For artist names not found in database:
         1. find artists not found in initial database search
@@ -524,11 +524,11 @@ class SpotifyFunctionsPublic:
             # making sure no multiples coming of move
             if len(df_artist_data_echonest) != len(df_echonest_ids):
                 print 'Warning! Merging caused duplication' #could aggregate by name and take max count but leave like this for now
-                print 'old num: ', len(df_echonest_ids)
-                print 'new num: ', len(df_artist_data_echonest)
-                print 'fixing ...'
-                df_artist_data_echonest = df_artist_data_echonest.drop_duplicates()
-                print 'revised num', len(df_artist_data_echonest)
+                # print 'old num: ', len(df_echonest_ids)
+                # print 'new num: ', len(df_artist_data_echonest)
+                # print 'fixing ...'
+                # df_artist_data_echonest = df_artist_data_echonest.drop_duplicates()
+                # print 'revised num', len(df_artist_data_echonest)
         else:
             # make empty df
             print 'no artist data'
