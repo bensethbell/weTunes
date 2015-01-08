@@ -121,14 +121,19 @@ class SpotifyFunctionsPrivate:
         user_saved_tracks = []
         user_saved_tracks_init = self.s.current_user_saved_tracks(limit = lim, offset = 0)
         total_tracks = user_saved_tracks_init['total']
+        if total_tracks > 1000:
+            total_tracks = 1000
 
         x = 0 # initializing offset
 
         # looping through each iteration of saved tracks (given limit on query), to get all in user_saved_tracks
         while x < total_tracks:
-            user_tracks = self.s.current_user_saved_tracks(limit = lim, offset = x)
-            for item in user_tracks['items']:
-                user_saved_tracks.append(item)
+            try:
+                user_tracks = self.s.current_user_saved_tracks(limit = lim, offset = x)
+                for item in user_tracks['items']:
+                    user_saved_tracks.append(item)
+            except:
+                print 'error in querying API'
             x += lim
 
         self.user_saved_tracks = user_saved_tracks
@@ -157,25 +162,30 @@ class SpotifyFunctionsPrivate:
         user_playlist_objects = []
         user_playlists_init = self.s.user_playlists(user_id, limit = lim)
         total_playlists = user_playlists_init['total']
+        if total_playlists > 100:
+            total_playlists = 100
 
         x = 0 # initializing offset
 
         while x < total_playlists:
-            user_playlists_tmp = self.s.user_playlists(user_id, limit = lim, offset = x)
-            for item in user_playlists_tmp['items']:
-                user_playlists.append(item)
-                playlist_id = item['id']
-                print 'playlist_id', playlist_id
-                owner = item['owner']['id']
-                print 'playlist owner', owner
-                if (playlist_id != None) and (owner != None):
-                    try:
-                        playlist_data = self.s.user_playlist(owner, playlist_id)
-                        user_playlist_objects.append(playlist_data)
-                    except:
-                        print 'error in adding playlist'
-                else:
-                    print 'error in adding playlist: owner or playlist_id does not exist'
+            try: 
+                user_playlists_tmp = self.s.user_playlists(user_id, limit = lim, offset = x)
+                for item in user_playlists_tmp['items']:
+                    user_playlists.append(item)
+                    playlist_id = item['id']
+                    print 'playlist_id', playlist_id
+                    owner = item['owner']['id']
+                    print 'playlist owner', owner
+                    if (playlist_id != None) and (owner != None):
+                        try:
+                            playlist_data = self.s.user_playlist(owner, playlist_id)
+                            user_playlist_objects.append(playlist_data)
+                        except:
+                            print 'error in adding playlist'
+                    else:
+                        print 'error in adding playlist: owner or playlist_id does not exist'
+            except:
+                print 'error in querying API'
 
             x += lim
 
@@ -417,7 +427,7 @@ class SpotifyFunctionsPublic:
         self.user_saved_tracks = user_saved_tracks
 
 
-    def get_user_public_playlists(self, user_id, lim = 2):
+    def get_user_public_playlists(self, user_id, lim = 50):
         '''
         INPUT: user_id
         OUTPUT: list of users public playlists
@@ -426,8 +436,8 @@ class SpotifyFunctionsPublic:
         user_playlist_objects = []
         user_playlists_init = self.s.user_playlists(user_id, limit = lim)
         total_playlists = user_playlists_init['total']
-        if total_playlists > 5:
-            total_playlists = 5
+        if total_playlists > 100:
+            total_playlists = 100
 
         x = 0 # initializing offset
 
